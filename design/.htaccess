@@ -1,0 +1,78 @@
+# =============================================================================
+# PHCCO redesign (phcco2) — static site.
+#
+# Deployed to:  /var/www/html/istage.indevconsultancy.com/new/phcco2
+# Served at:    https://istage.indevconsultancy.com/phcco2/
+#
+# This is a plain multi-page static site: every URL maps to a real file, so the
+# parent docroot's SPA-style rewrite (new/.htaccess sends unmatched requests to
+# its own index.html) never triggers for us. The only rewrite below is an
+# optional convenience: /phcco2/about also serves about.html.
+#
+# Requires AllowOverride All on the docroot — already set in
+# istage.indevconsultancy.com.conf.
+# =============================================================================
+
+DirectoryIndex index.html
+Options -Indexes +FollowSymLinks
+
+# --- extensionless URLs -----------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /frontend/phcco2/
+
+  # Leave real files and directories alone.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # /phcco2/about  ->  /phcco2/about.html
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.+)$ $1.html [L]
+</IfModule>
+
+# --- MIME -------------------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType text/javascript .js
+  AddType text/css .css
+</IfModule>
+
+# --- compression ------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css
+  AddOutputFilterByType DEFLATE text/javascript application/javascript
+  AddOutputFilterByType DEFLATE image/svg+xml application/json
+</IfModule>
+
+# --- caching ----------------------------------------------------------------
+# NOTHING here is content-hashed: every file is edited in place and keeps its
+# name. Long max-age would therefore pin visitors to stale assets — an earlier
+# 6-month rule on .webp did exactly that, and an updated map kept showing the
+# old image. So everything revalidates. Apache sends ETag + Last-Modified, so an
+# unchanged file costs a 304 with no body, not a re-download.
+#
+# If you later fingerprint asset filenames (e.g. styles.abc123.css), raise the
+# max-age here — that is the only safe way to cache aggressively.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  # Images may sit in cache briefly, but must revalidate after that so an
+  # edited image is picked up the same day rather than months later.
+  <FilesMatch "\.(webp|png|jpe?g|svg|ico|woff2?)$">
+    Header set Cache-Control "public, max-age=600, must-revalidate"
+  </FilesMatch>
+
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>

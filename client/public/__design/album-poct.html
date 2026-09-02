@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2e1437">
+
+<title>Point-of-Care Technologies — PHCCO</title>
+<meta name="description" content="Workshop sessions and hands-on demonstrations from the point-of-care technologies programme.">
+
+<link rel="icon" type="image/webp" href="assets/media/brand/phcco-mark.webp">
+<link rel="apple-touch-icon" href="assets/media/brand/phcco-mark.webp">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PHCCO">
+<meta property="og:title" content="Point-of-Care Technologies — PHCCO">
+<meta property="og:description" content="Workshop sessions and hands-on demonstrations from the point-of-care technologies programme.">
+<!-- TODO before launch: og:image must be a fully-qualified https:// URL —
+     social scrapers do not resolve relative paths. -->
+<meta property="og:image" content="assets/media/img/workshop-group.webp">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="topbar">
+    <div class="shell">
+      <p>
+        <span class="from-sm">An IISc initiative · Supported by Param Hansa Philanthropies</span>
+        <span class="to-sm">IISc × Param Hansa</span>
+      </p>
+      <a href="mailto:phcco@iisc.ac.in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h13A2.5 2.5 0 0 1 21 7.5v9A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5v-9Z"/><path d="m3.5 7 8.5 6 8.5-6"/></svg><span>phcco@iisc.ac.in</span></a>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="shell">
+      <div class="header-row">
+        <!-- Sheet1 row 8.0: IISc logo removed from the top banner. It remains in
+             the footer and on the About page. -->
+        <a class="brand" href="index.html" aria-label="PHCCO — Param Hansa Centre for Computational Oncology — home">
+          <img class="brand-logo" src="assets/media/brand/phcco-logo.webp" alt="PHCCO — Param Hansa Centre for Computational Oncology"
+               width="1655" height="494">
+        </a>
+
+        <nav class="nav-desktop" aria-label="Primary">
+              <a href="index.html">Home</a>
+              <a href="about.html">About</a>
+              <a href="research.html">Research</a>
+              <a href="publications.html">Publications</a>
+              <a href="outreach.html">Outreach</a>
+              <a href="blog.html">Blog</a>
+              <a href="cohort.html">Cohort</a>
+              <div class="nav-parent" data-nav-parent>
+                <a href="media.html" aria-current="page" aria-expanded="false">Media<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="nav-caret" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
+                <ul class="nav-sub">
+                  <li><a href="media.html" aria-current="page">Photos</a></li>
+                  <li><a href="media-videos.html">Videos</a></li>
+                </ul>
+              </div>
+              <a href="contact.html">Contact</a>
+        </nav>
+
+        <div class="header-actions">
+          <a class="btn btn-accent header-cta" href="get-involved.html">Get Involved</a>
+          <span class="header-divider" aria-hidden="true"></span>
+          <a class="ph-logo" href="https://paramhansa.life/" target="_blank" rel="noopener noreferrer"
+             aria-label="Param Hansa Philanthropies">
+            <img src="assets/media/brand/paramhansa-color.webp" alt="Param Hansa Philanthropies">
+          </a>
+          <button class="menu-toggle" type="button" aria-expanded="false"
+                  aria-controls="site-nav-mobile" aria-label="Open menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="icon-open" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="icon-close" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-mobile" id="site-nav-mobile" hidden>
+      <div class="shell">
+        <nav aria-label="Primary (mobile)">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="research.html">Research</a>
+            <a href="publications.html">Publications</a>
+            <a href="outreach.html">Outreach</a>
+            <a href="blog.html">Blog</a>
+            <a href="cohort.html">Cohort</a>
+            <a href="media.html" aria-current="page">Media</a>
+            <ul class="nav-sub-mobile">
+                  <li><a href="media.html" aria-current="page">Photos</a></li>
+                  <li><a href="media-videos.html">Videos</a></li>
+            </ul>
+            <a href="contact.html">Contact</a>
+          <a class="btn btn-accent" href="get-involved.html">Get Involved</a>
+          <a class="ph-mobile" href="https://paramhansa.life/" target="_blank" rel="noopener noreferrer">
+            <img src="assets/media/brand/paramhansa-color.webp" alt="Param Hansa Philanthropies">
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="page-banner">
+      <img class="page-banner-img" src="assets/media/img/banner-media.webp"
+             alt="" width="2400" height="560" loading="eager" fetchpriority="high"
+             decoding="async">
+      <div class="page-banner-scrim" aria-hidden="true"></div>
+      <div class="layer dotgrid page-banner-grid" aria-hidden="true"></div>
+      <div class="shell">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="media.html">Media</a></li>
+            <li><a href="media.html">Photos</a></li>
+            <li aria-current="page">Point-of-Care Technologies</li>
+          </ol>
+        </nav>
+        <span class="eyebrow on-banner">Album</span>
+        <h1 class="t-hero balance">Point-of-Care Technologies</h1>
+        <p class="lead t-lead pretty">Workshop sessions and hands-on demonstrations from the point-of-care technologies programme.</p>
+        
+        <div class="post-hero-meta reveal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 10.5h16"/></svg> 2026
+          <i aria-hidden="true">·</i> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg> IISc Bengaluru
+          <i aria-hidden="true">·</i> 24 photographs
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ PHOTOS ============================= -->
+    <section class="section">
+      <div class="shell">
+        <div class="photo-grid" data-lightbox>
+              <figure class="ph-tile reveal" data-reveal-delay="0">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-01-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="0"
+                        aria-label="Open photo 1 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-01-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="2400" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="60">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-02-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="1"
+                        aria-label="Open photo 2 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-02-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="2400" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="120">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-03-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="2"
+                        aria-label="Open photo 3 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-03-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="2400" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="180">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-04-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="3"
+                        aria-label="Open photo 4 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-04-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="2400" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="240">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-05-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="4"
+                        aria-label="Open photo 5 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-05-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="1350" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="300">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-06-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="5"
+                        aria-label="Open photo 6 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-06-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="1350" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="0">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-07-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="6"
+                        aria-label="Open photo 7 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-07-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="2400" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="60">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-08-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="7"
+                        aria-label="Open photo 8 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-08-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="2400" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="120">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-09-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="8"
+                        aria-label="Open photo 9 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-09-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="1350" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="180">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-10-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="9"
+                        aria-label="Open photo 10 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-10-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="1350" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="240">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-11-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="10"
+                        aria-label="Open photo 11 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-11-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="1350" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="300">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-12-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="11"
+                        aria-label="Open photo 12 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-12-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="2400" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="0">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-13-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="12"
+                        aria-label="Open photo 13 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-13-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="2400" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="60">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-14-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="13"
+                        aria-label="Open photo 14 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-14-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="1350" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="120">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-15-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="14"
+                        aria-label="Open photo 15 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-15-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="2400" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="180">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-16-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="15"
+                        aria-label="Open photo 16 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-16-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="1350" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="240">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-17-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="16"
+                        aria-label="Open photo 17 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-17-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="2400" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="300">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-18-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="17"
+                        aria-label="Open photo 18 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-18-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="1350" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="0">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-19-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="18"
+                        aria-label="Open photo 19 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-19-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="1350" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="60">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-20-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="19"
+                        aria-label="Open photo 20 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-20-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="1350" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="120">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-21-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="20"
+                        aria-label="Open photo 21 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-21-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="2400" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="180">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-22-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="21"
+                        aria-label="Open photo 22 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-22-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="1350" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="240">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-23-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="22"
+                        aria-label="Open photo 23 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-23-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="1350" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+              <figure class="ph-tile reveal" data-reveal-delay="300">
+                <button class="ph-open" type="button"
+                        data-full="assets/media/gallery/poct-24-f.webp"
+                        data-caption="Point-of-Care Technologies workshop"
+                        data-index="23"
+                        aria-label="Open photo 24 of 24: Point-of-Care Technologies workshop">
+                  <img src="assets/media/gallery/poct-24-t.webp" alt="Point-of-Care Technologies workshop"
+                       width="1800" height="1350" loading="lazy" decoding="async">
+                  <span class="ph-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></span>
+                </button>
+                <figcaption>Point-of-Care Technologies workshop</figcaption>
+              </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= OTHER ALBUMS ========================== -->
+    <section class="bg-white rule-top">
+      <div class="shell section">
+        
+        <div class="section-head reveal">
+          <span class="eyebrow">More</span>
+          <h2 class="t-h2 balance">Other albums</h2>
+          <div class="accent-rule"></div>
+          
+        </div>
+        <div class="album-grid" style="margin-top:2rem">
+            <a class="card card-hover album-card reveal" href="album-retreat-2026.html">
+              <span class="album-media">
+                <img src="assets/media/gallery/retreat-2026-01-t.webp" alt=""
+                     loading="lazy" decoding="async">
+                <span class="album-count">30 photos</span>
+              </span>
+              <span class="album-body">
+                <span class="album-meta">8–9 June 2026 <i aria-hidden="true">·</i> IISc Bengaluru</span>
+                <h3>PHCCO Retreat 2026</h3>
+                <span class="album-blurb">Two days of talks, group work and presentations — the centre's researchers, collaborators and students together in one room.</span>
+                <span class="bcard-read">View album <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              </span>
+            </a>
+            <a class="card card-hover album-card reveal" href="album-summer-internship.html" data-reveal-delay="80">
+              <span class="album-media">
+                <img src="assets/media/gallery/summer-internship-01-t.webp" alt=""
+                     loading="lazy" decoding="async">
+                <span class="album-count">30 photos</span>
+              </span>
+              <span class="album-body">
+                <span class="album-meta">Summer 2026 <i aria-hidden="true">·</i> Department of Bioengineering, IISc</span>
+                <h3>Summer Internship Programme</h3>
+                <span class="album-blurb">Orientation, lab work and the seven project groups presenting six weeks of mentored research.</span>
+                <span class="bcard-read">View album <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              </span>
+            </a>
+            <a class="card card-hover album-card reveal" href="album-ictp.html" data-reveal-delay="160">
+              <span class="album-media">
+                <img src="assets/media/gallery/ictp-01-t.webp" alt=""
+                     loading="lazy" decoding="async">
+                <span class="album-count">4 photos</span>
+              </span>
+              <span class="album-body">
+                <span class="album-meta">2026 <i aria-hidden="true">·</i> IISc Bengaluru</span>
+                <h3>ICTP</h3>
+                <span class="album-blurb">Sessions from the ICTP programme.</span>
+                <span class="bcard-read">View album <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              </span>
+            </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="footer-logo-chip" href="index.html" aria-label="PHCCO — home">
+            <img src="assets/media/brand/phcco-logo.webp" alt="PHCCO — Param Hansa Centre for Computational Oncology" width="1655" height="494">
+          </a>
+          <div class="marks" style="margin-top:1.25rem">
+            <img class="iisc" src="assets/media/brand/iisc-emblem.webp" alt="Indian Institute of Science">
+            <span class="divider" aria-hidden="true"></span>
+            <img class="ph" src="assets/media/brand/paramhansa-white.webp" alt="Param Hansa Philanthropies">
+          </div>
+          <p>India's first dedicated centre for computational oncology, established at Indian Institute of Science, Bengaluru in 2023 —
+             building an ecosystem where computation, biology and the clinic work on the
+             same problems.</p>
+        </div>
+
+        <div>
+          <h2>Explore</h2>
+          <div class="footer-nav">
+            <a href="about.html">About</a>
+            <a href="research.html">Research</a>
+            <a href="publications.html">Publications</a>
+            <a href="outreach.html">Outreach</a>
+            <a href="blog.html">Blog</a>
+            <a href="cohort.html">Cohort</a>
+            <a href="media.html">Media</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+
+        <div>
+          <h2>Contact</h2>
+          <ul class="footer-contact">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg><address><span>Department of Bioengineering, 3rd Floor</span><span>TCS Smart X Hub, Interdisciplinary Research Building</span><span>Indian Institute of Science</span><span>Bengaluru 560012, Karnataka, India</span></address></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v3a2 2 0 0 1-2.2 2A16 16 0 0 1 3 6.2A2 2 0 0 1 5 4Z"/></svg><a href="tel:+918022932751">+91-80-2293 2751</a></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h13A2.5 2.5 0 0 1 21 7.5v9A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5v-9Z"/><path d="m3.5 7 8.5 6 8.5-6"/></svg><a href="mailto:phcco@iisc.ac.in">phcco@iisc.ac.in</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 PHCCO, Indian Institute of Science, Bengaluru. All rights reserved.</p>
+        <p>An initiative of IISc &amp;
+           <a href="https://paramhansa.life/" target="_blank" rel="noopener noreferrer">Param Hansa Philanthropies</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+<script src="assets/app.js" defer></script>
+</body>
+</html>
