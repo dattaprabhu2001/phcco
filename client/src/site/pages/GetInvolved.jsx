@@ -30,6 +30,7 @@ export function GetInvolved() {
                     key={e.id} data-reveal-delay={i * 80}>
                 <span className="bcard-media">
                   {e.image && <img src={e.image} alt="" loading="lazy" decoding="async" />}
+                  {e.kind && <span className="type-pill">{e.kind}</span>}
                 </span>
                 <span className="bcard-body">
                   <span className="bcard-meta">

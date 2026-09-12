@@ -77,23 +77,27 @@ export default function Cohort() {
             </div>
           </div>
 
-          {current && (
-            <div className="cohort-panel" role="tabpanel" aria-label={current.title}>
+          {/* Every panel stays mounted and inactive ones are `hidden`, as in the
+              original. Unmounting them would put 47 of the 53 profiles out of
+              reach of in-page search and of anything reading the page. */}
+          {tabbed.map((g) => (
+            <div className="cohort-panel" role="tabpanel" aria-label={g.title}
+                 hidden={current?.id !== g.id} key={g.id}>
               <div className="cohort-panel-head">
-                <h3>{current.title}</h3>
+                <h3>{g.title}</h3>
                 <span className="n">
-                  {current.people.length} {current.people.length === 1 ? 'person' : 'people'}
+                  {g.people.length} {g.people.length === 1 ? 'person' : 'people'}
                 </span>
               </div>
               <div className="grid sm-g-2 lg-g-3">
-                {current.people.map((p, i) => (
+                {g.people.map((p, i) => (
                   <div className="reveal" key={p.id} data-reveal-delay={i * 50}>
                     <PersonCard person={p} />
                   </div>
                 ))}
               </div>
             </div>
-          )}
+          ))}
         </Section>
       )}
 

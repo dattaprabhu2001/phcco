@@ -55,8 +55,14 @@ export default function Publications() {
               </div>
 
               <div className="pub-meta">
-                {shown.length} of {data.publications.length}{' '}
-                {data.publications.length === 1 ? 'publication' : 'publications'}
+                <span>
+                  {shown.length} of {data.publications.length}{' '}
+                  {data.publications.length === 1 ? 'publication' : 'publications'}
+                </span>
+                <button className="chip" type="button" hidden={!theme && !year && !search}
+                        onClick={() => { setTheme(null); setYear(null); setSearch(''); }}>
+                  Clear filters
+                </button>
               </div>
             </div>
 
@@ -95,9 +101,10 @@ export default function Publications() {
               ))}
             </div>
 
-            {shown.length === 0 && (
-              <p className="empty-state reveal">No publications match those filters.</p>
-            )}
+            <p className="empty-state reveal" hidden={shown.length > 0}
+               style={{ marginTop: '1.75rem' }}>
+              No publications match those filters.
+            </p>
           </div>
         </div>
       </section>
@@ -111,10 +118,9 @@ function FilterGroup({ label, options = [], value, onChange }) {
   return (
     <div className="filter-group">
       <span className="lbl">{label}</span>
+      {/* No "all" chip: the design clears facets with the Clear filters
+          control, and a chip per facet as well would be two ways to do one thing. */}
       <div className="chips">
-        <button className="chip" type="button" aria-pressed={!value} onClick={() => onChange(null)}>
-          All
-        </button>
         {options.map((o) => (
           <button key={o} className="chip" type="button"
                   aria-pressed={String(value) === String(o)}

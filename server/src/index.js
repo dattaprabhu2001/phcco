@@ -79,7 +79,7 @@ app.post('/api/admin/password', requireAuth, async (req, res, next) => {
 app.get('/api/admin/stats', requireAuth, async (req, res, next) => {
   try {
     const tables = [
-      ['pages', 'Pages'], ['posts', 'Blog posts'], ['publications', 'Publications'],
+      ['posts', 'Blog posts'], ['publications', 'Publications'],
       ['people', 'People'], ['albums', 'Albums'], ['photos', 'Photos'],
       ['videos', 'Videos'], ['events', 'Events'], ['outreach_locations', 'Outreach locations'],
       ['collaborators', 'Collaborators'],
@@ -98,8 +98,46 @@ app.get('/api/admin/stats', requireAuth, async (req, res, next) => {
 });
 
 app.get('/api/admin/modules', requireAuth, (req, res) => {
-  res.json(MODULES.map(({ key, label, icon, columns, listFields }) =>
-    ({ key, label, icon, columns, listFields })));
+  res.json(MODULES.map(({ key, label, icon, group, description, columns, listFields }) =>
+    ({ key, label, icon, group, description, columns, listFields })));
+});
+
+// --- admin: homepage banner --------------------------------------------------
+/**
+ * The one page record the CMS exposes. Every other page's banner stays as it is
+ * in the database — those pages are authored by hand, so there is nothing here
+ * to create or delete, only the homepage's copy to edit.
+ */
+const HOME_BANNER_FIELDS = [
+  'hero_eyebrow', 'hero_title', 'hero_lead',
+  'hero_cta_label', 'hero_cta_url', 'hero_cta2_label', 'hero_cta2_url',
+];
+
+app.get('/api/admin/home-banner', requireAuth, async (req, res, next) => {
+  try {
+    const row = await one(
+      `SELECT ${HOME_BANNER_FIELDS.join(', ')} FROM pages WHERE slug = 'home'`
+    );
+    if (!row) return res.status(404).json({ error: 'Home page record is missing.' });
+    res.json(row);
+  } catch (e) { next(e); }
+});
+
+app.put('/api/admin/home-banner', requireAuth, async (req, res, next) => {
+  try {
+    const data = {};
+    for (const f of HOME_BANNER_FIELDS) {
+      if (f in (req.body || {})) data[f] = req.body[f] === '' ? null : req.body[f];
+    }
+    if (!Object.keys(data).length) {
+      return res.status(400).json({ error: 'No valid fields supplied' });
+    }
+    await q(
+      `UPDATE pages SET ${Object.keys(data).map((k) => `\`${k}\` = ?`).join(', ')} WHERE slug = 'home'`,
+      Object.values(data)
+    );
+    res.json(await one(`SELECT ${HOME_BANNER_FIELDS.join(', ')} FROM pages WHERE slug = 'home'`));
+  } catch (e) { next(e); }
 });
 
 // --- admin: settings ---------------------------------------------------------

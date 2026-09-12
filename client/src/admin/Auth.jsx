@@ -43,7 +43,7 @@ export function RequireAuth({ children }) {
   const { user, ready } = useAuth();
   const location = useLocation();
 
-  if (!ready) return <div className="admin-boot">Checking your session…</div>;
+  if (!ready) return <div className="adm-boot">Checking your session…</div>;
   if (!user) return <Navigate to="/admin/login" state={{ from: location }} replace />;
   return children;
 }

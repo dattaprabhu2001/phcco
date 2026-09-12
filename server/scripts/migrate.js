@@ -43,7 +43,12 @@ function txt(el) {
 function localHref(href) {
   if (!href) return null;
   if (/^(https?:|mailto:|tel:|#|\/)/.test(href)) return href;
-  const [file, hash = ''] = href.split('#');
+
+  // Keep any query string and fragment: "contact.html?subject=x#y" must become
+  // "/contact?subject=x#y", not stay a dead .html path.
+  const cut = href.search(/[?#]/);
+  const file = cut === -1 ? href : href.slice(0, cut);
+  const suffix = cut === -1 ? '' : href.slice(cut);
   if (!file.endsWith('.html')) return href;
 
   const slug = file.replace(/\.html$/, '');
@@ -53,7 +58,7 @@ function localHref(href) {
         : slug.startsWith('album-') ? `/media/${slug.slice(6)}`
           : slug.startsWith('event-') ? `/events/${slug.slice(6)}`
             : `/${slug}`;
-  return hash ? `${routed}#${hash}` : routed;
+  return routed + suffix;
 }
 
 /** Asset paths made site-absolute; page links rewritten to SPA routes. */
@@ -360,11 +365,58 @@ async function migrateSections() {
       const items = [];
       const seen = new Set();
 
+      // Blocks that have their own table. They are not imported as section
+      // items, and their prose must not be swept up either — otherwise every
+      // programme edition and every cohort profile is stored a second time as
+      // loose paragraphs and rendered twice on the page.
+      for (const el of sec.querySelectorAll(
+        'article.card.edition, .card.person, .cohort-panel, .theme-block, .vid-card, .pod-card'
+      )) consumed.add(el);
+
+      // A head-only section keeps its eyebrow and heading; every card in it
+      // belongs to a typed table, so none of their text is section prose.
+      if (headOnly) for (const el of sec.querySelectorAll('.card')) consumed.add(el);
+
+      // Bullets inside a format list are items in their own right.
+      for (const li of headOnly ? [] : sec.querySelectorAll('.format-list li')) {
+        const t = txt(li);
+        if (!t || seen.has(t)) continue;
+        seen.add(t);
+        consumed.add(li);
+        items.push({ title: t, kind: 'format' });
+      }
+
+      // Captioned figures in an inline gallery.
+      for (const fig of headOnly ? [] : sec.querySelectorAll('figure.gallery-card')) {
+        const img = fig.querySelector('img');
+        const src = asset(attr(img, 'src'));
+        if (!src) continue;
+        consumed.add(fig);
+        // The caption is two lines: what the photo shows, and where.
+        items.push({
+          title: txt(fig.querySelector('figcaption .t')) || txt(fig.querySelector('figcaption')) || attr(img, 'alt'),
+          subtitle: txt(fig.querySelector('figcaption .v')),
+          image: src,
+          kind: 'gallery',
+        });
+      }
+
       for (const it of headOnly ? [] : sec.querySelectorAll('.card, .feature, .impact-card, .split h3')) {
         const isHeading = it.tagName === 'H3';
 
         // A card wrapping a form is UI, not content.
         if (!isHeading && it.querySelector('form, input, textarea')) continue;
+        // Programme editions have their own table.
+        if (it.classList?.contains('edition')) continue;
+        // A card that only wraps a format list contributes no item of its own —
+        // its bullets were captured above and its heading is part of the layout.
+        if (it.querySelector?.('.format-list')) continue;
+        // A bare heading inside a card is that card's title, and the card is
+        // handled on its own pass; and a `.kicker` is a small label above a
+        // block ("Format", "Editions by year"), never an item in its own right.
+        if (isHeading && (it.closest('.card') || it.classList.contains('kicker'))) continue;
+        // Already captured above.
+        if (consumed.has(it)) continue;
 
         // Impact cards carry no heading — a big value, a label and a blurb.
         if (it.classList?.contains('impact-card')) {
@@ -406,7 +458,13 @@ async function migrateSections() {
         }
         if (!title || seen.has(title)) continue;
 
-        const bodyEl = isHeading ? it.nextElementSibling : it.querySelector('p');
+        // A shape card leads with a small kicker ("Weeks 1–3") before its real
+        // description, so take the first paragraph that is not that kicker —
+        // otherwise every one of these cards imports with the kicker as its body.
+        const kicker = it.querySelector?.('.kicker');
+        const bodyEl = isHeading
+          ? it.nextElementSibling
+          : it.querySelectorAll('p').find((p) => p !== kicker && !p.classList.contains('venue'));
         const body = txt(bodyEl);
         // A card may legitimately be title-only; a card whose "body" is just
         // its own title again is a parse artefact and gets no body.
@@ -416,16 +474,22 @@ async function migrateSections() {
         consumed.add(it);
         if (bodyEl) consumed.add(bodyEl);
 
-        const link = it.querySelector?.('a');
+        // A pillar card is itself the anchor, so look at the element before
+        // looking inside it — otherwise these cards import with no link.
+        const link = it.tagName === 'A' ? it : it.querySelector?.('a');
         items.push({
           title,
           // The numbered/domain cards carry an "01" counter that the design
-          // renders; keep it so the sequence survives a reorder in the CMS.
-          subtitle: isHeading ? null : txt(it.querySelector('.n')),
+          // renders; a shape card carries a kicker instead. Both live in
+          // subtitle, keeping the sequence intact across a reorder in the CMS.
+          subtitle: isHeading ? null : (txt(it.querySelector('.n')) || txt(kicker)),
           body,
+          kind: it.classList?.contains('shape-card') ? 'shape' : 'card',
           image: asset(attr(it.querySelector?.('img'), 'src')),
           link_url: localHref(attr(link, 'href')),
-          link_label: link ? txt(link) : null,
+          // When the card is the anchor its text is the whole card, which is
+          // not a label — the design shows no label on those.
+          link_label: link && link !== it ? txt(link) : null,
           tags: [...(it.querySelectorAll?.('.tag') || [])]
             .map((t) => txt(t)).filter(Boolean).join(', ') || null,
         });
@@ -435,17 +499,37 @@ async function migrateSections() {
       // captured as an item. A card that yielded no item (a pull-quote, a plain
       // prose panel) still holds real text, so only cards that *did* produce an
       // item are excluded here — otherwise that copy would be dropped outright.
+      // True when the paragraph sits inside anything already captured as an
+      // item. Checking `.closest('.card')` alone was not enough: impact cards
+      // are `.impact-card`, so their <p> elements slipped through and every one
+      // of them ended up rendered twice — once as a card, once as prose.
+      const insideConsumed = (el) => {
+        for (let n = el; n; n = n.parentNode) if (consumed.has(n)) return true;
+        return false;
+      };
+
+      // A card wrapping a form is UI, and so is everything printed beside it —
+      // the "fill this in" blurb and the success panel. Those are behaviour the
+      // React page owns, not section copy, and importing them renders the whole
+      // lot a second time as loose paragraphs below the real thing.
+      const inFormCard = (el) => {
+        const card = el.closest('.card');
+        return !!card && !!card.querySelector('form, input, textarea');
+      };
+
       const prose = sec.querySelectorAll('p')
         .filter((p) => p !== lead
           && !p.classList.contains('lead')
           && !p.closest('.section-head')
           && !p.closest('form')
+          && !inFormCard(p)
+          // Address/email/phone labels come from site settings, not prose.
+          && !p.closest('.contact-list')
           && !p.closest('aside')
           && !p.closest('.pullquote')
-          && !consumed.has(p)
-          && !consumed.has(p.closest('.card'))
+          && !insideConsumed(p)
           && txt(p))
-        .map((p) => `<p>${p.innerHTML.trim()}</p>`)
+        .map((p) => `<p>${rewrite(p.innerHTML)}</p>`)
         .join('\n');
 
       // Split layouts carry a pull-quote or stat panel in an <aside>. Failing
@@ -482,8 +566,8 @@ async function migrateSections() {
       for (const item of items) {
         await insert('page_section_items', {
           section_id: sectionId,
-          subtitle: null,
-          icon: null,
+          title: null, subtitle: null, body: null, image: null,
+          link_url: null, link_label: null, tags: null, kind: 'card',
           sort: (isort += 10),
           ...item,
         });
@@ -569,7 +653,7 @@ async function migrateResearch() {
       title,
       summary: txt(rail?.querySelector('.short')),
       body: [...(bodyCard?.querySelectorAll('p') || [])]
-        .map((p) => `<p>${p.innerHTML.trim()}</p>`)
+        .map((p) => `<p>${rewrite(p.innerHTML)}</p>`)
         .join('\n') || null,
       tags: [...(bodyCard?.querySelectorAll('.tag') || [])]
         .map((t) => txt(t)).filter(Boolean).join(', ') || null,
@@ -722,17 +806,25 @@ async function migrateCohort() {
 function authorPlaces() {
   const d = doc('blog.html');
   const map = {};
+
+  // The by-country list groups authors under a country card, so read the
+  // country from each author's ancestor card rather than from the row itself.
   for (const li of d.querySelectorAll('[data-author]')) {
     const name = attr(li, 'data-author');
     if (!name) continue;
-    map[name] = { city: attr(li, 'data-city'), x: null, y: null };
+    map[name] = {
+      city: attr(li, 'data-city'),
+      country: txt(li.closest('.country-card')?.querySelector('.nm')),
+      x: null,
+      y: null,
+    };
   }
 
   const js = fs.readFileSync(path.join(DESIGN, 'assets', 'world-map.js'), 'utf8');
   const pins = js.match(/pins:\s*(\[[^\]]*\])/);
   if (pins) {
     for (const pin of JSON.parse(pins[1])) {
-      map[pin.name] = { ...(map[pin.name] || { city: null }), x: pin.x, y: pin.y };
+      map[pin.name] = { city: null, country: null, ...(map[pin.name] || {}), x: pin.x, y: pin.y };
     }
   }
   return map;
@@ -799,9 +891,11 @@ async function migratePosts() {
       author_name: author,
       author_role: shortAffiliation[author] || txt(card.querySelector('.af')),
       author_title: txt(card.querySelector('.af')),
-      author_avatar: null,
+      // Most cards fall back to initials; an author with a portrait gets one.
+      author_avatar: asset(attr(card.querySelector('img.avatar'), 'src')),
       is_invited: card.querySelector('.pill-invited') ? 1 : 0,
       author_city: place.city || null,
+      author_country: place.country || null,
       author_map_x: place.x ?? null,
       author_map_y: place.y ?? null,
       read_minutes: readMinutes,
@@ -861,6 +955,8 @@ async function migrateAlbums() {
           thumb,
           full: asset(attr(btn, 'data-full')) || thumb,
           caption: attr(btn, 'data-caption') || txt(fig.querySelector('figcaption')),
+          width: Number(attr(img, 'width')) || null,
+          height: Number(attr(img, 'height')) || null,
           sort: (psort += 10),
         });
         photos++;
@@ -957,6 +1053,7 @@ async function migrateEvents() {
       body_html: body,
       date_text: dateText,
       location,
+      kind: txt(card.querySelector('.type-pill')),
       image: asset(attr(card.querySelector('img'), 'src')),
       cta_label: txt(card.querySelector('.bcard-read')) || 'Know more',
       cta_url: null,
@@ -971,6 +1068,44 @@ async function migrateEvents() {
 // ---------------------------------------------------------------------------
 // 10. outreach map + collaborators
 // ---------------------------------------------------------------------------
+
+/** The year-tabbed Summer Internship edition cards on the Outreach page. */
+async function migrateEditions() {
+  const d = doc('outreach.html');
+  let sort = 0;
+  let n = 0;
+
+  for (const card of d.querySelectorAll('article.card.edition')) {
+    const title = txt(card.querySelector('h3, h4'));
+    if (!title) continue;
+
+    // id="edition-2026" is the authoritative year; the heading may not carry it.
+    const year = (attr(card, 'id') || '').replace(/^edition-/, '')
+      || (title.match(/\b(20\d{2})\b/) || [])[1]
+      || String(sort);
+
+    const stats = card.querySelectorAll('dl > div')
+      .map((row) => `${txt(row.querySelector('dd'))}|${txt(row.querySelector('dt'))}`)
+      .filter((s) => !s.startsWith('null'));
+
+    await insert('programme_editions', {
+      programme: 'summer-internship',
+      year,
+      title,
+      kicker: txt(card.querySelector('.kicker')),
+      venue: txt(card.querySelector('.venue')),
+      summary: txt(card.querySelector('.summary')),
+      image: asset(attr(card.querySelector('img'), 'src')),
+      highlights: card.querySelectorAll('.hl li').map((li) => txt(li)).filter(Boolean).join('\n') || null,
+      tags: card.querySelectorAll('.tags .tag').map((t) => txt(t)).filter(Boolean).join(', ') || null,
+      stats: stats.join('\n') || null,
+      visible: 1,
+      sort: (sort += 10),
+    });
+    n++;
+  }
+  return n;
+}
 
 async function migrateOutreach() {
   const d = doc('outreach.html');
@@ -1053,7 +1188,7 @@ async function migrateCollaborators() {
 const CONTENT_TABLES = [
   'page_section_items', 'page_sections', 'pages', 'nav_items', 'site_settings',
   'hero_slides', 'stats', 'research_themes', 'research_methods', 'publications',
-  'people', 'people_groups', 'posts', 'photos', 'albums', 'videos', 'events',
+  'people', 'people_groups', 'posts', 'photos', 'albums', 'videos', 'events', 'programme_editions',
   'outreach_locations', 'collaborators',
 ];
 
@@ -1083,6 +1218,7 @@ async function main() {
   out.photos = media.photos;
   out.videos = await migrateVideos();
   out.events = await migrateEvents();
+  out.programme_editions = await migrateEditions();
   out.outreach_locations = await migrateOutreach();
   out.collaborators = await migrateCollaborators();
 

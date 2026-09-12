@@ -17,12 +17,28 @@ const PATHS = {
   phone: ['M4 5.5A1.5 1.5 0 0 1 5.5 4h2A1.5 1.5 0 0 1 9 5.5v2A1.5 1.5 0 0 1 7.5 9H7a11 11 0 0 0 8 8v-.5A1.5 1.5 0 0 1 16.5 15h2A1.5 1.5 0 0 1 20 16.5v2A1.5 1.5 0 0 1 18.5 20 15 15 0 0 1 4 5.5Z'],
   linkedin: ['M6 9v10M6 5.5v.01M11 19v-5a3 3 0 0 1 6 0v5'],
   globe: ['M3.5 12h17M12 3.5c2.4 2.3 3.6 5.3 3.6 8.5S14.4 18.2 12 20.5c-2.4-2.3-3.6-5.3-3.6-8.5S9.6 5.8 12 3.5Z'],
+  photos: ['m4 17 5-4.5 3.5 3 3-2.5L20 17'],
+  videos: ['m16 10.5 5-3v9l-5-3z'],
+  flask: ['M9 3h6M10 3v5.5L5.5 17A2.5 2.5 0 0 0 7.8 21h8.4a2.5 2.5 0 0 0 2.3-4L14 8.5V3', 'M7 15h10'],
+  check: ['m5 13 4.5 4.5L19 7'],
+  // The "An initiative of" row on Contact — an institution, not a handshake.
+  institution: [
+    'M4 20.5V5a1.5 1.5 0 0 1 1.5-1.5h7A1.5 1.5 0 0 1 14 5v15.5',
+    'M14 9.5h4.5A1.5 1.5 0 0 1 20 11v9.5',
+    'M3 20.5h18M7 7.5h3M7 11.5h3M7 15.5h3',
+  ],
 };
 
 const CIRCLES = {
   pin: [{ cx: 12, cy: 10, r: 2.6 }],
   search: [{ cx: 11, cy: 11, r: 6.5 }],
   globe: [{ cx: 12, cy: 12, r: 8.5 }],
+  photos: [{ cx: 8.5, cy: 9.5, r: 1.6 }],
+};
+
+const RECTS = {
+  photos: [{ x: 3, y: 4.5, width: 18, height: 15, rx: 2 }],
+  videos: [{ x: 3, y: 5.5, width: 13, height: 13, rx: 2 }],
 };
 
 export default function Icon({ name, className }) {
@@ -31,6 +47,7 @@ export default function Icon({ name, className }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
          strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      {(RECTS[name] || []).map((r, i) => <rect key={`r${i}`} {...r} />)}
       {(CIRCLES[name] || []).map((c, i) => <circle key={`c${i}`} {...c} />)}
       {paths.map((d, i) => <path key={i} d={d} />)}
     </svg>

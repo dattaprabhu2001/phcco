@@ -18,8 +18,13 @@ function Html({ html, tagName: Tag = 'div', ...rest }) {
   return <Tag {...rest} dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
-/** The banner that opens every inner page. */
-export function PageBanner({ page, crumb }) {
+/**
+ * The banner that opens every inner page.
+ *
+ * `trail` holds any intermediate breadcrumb links between Home and the current
+ * page — the media pages sit under a "Media" parent, for instance.
+ */
+export function PageBanner({ page, crumb, trail = [] }) {
   if (!page) return null;
   return (
     <section className="page-banner">
@@ -33,6 +38,9 @@ export function PageBanner({ page, crumb }) {
         <nav className="crumbs" aria-label="Breadcrumb">
           <ol>
             <li><Link to="/">Home</Link></li>
+            {trail.map((t) => (
+              <li key={t.to}><Link to={t.to}>{t.label}</Link></li>
+            ))}
             <li aria-current="page">{crumb || page.title}</li>
           </ol>
         </nav>

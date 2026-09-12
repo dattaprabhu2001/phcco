@@ -169,12 +169,22 @@ function Introduction({ section }) {
           <Prose html={section.body_html} />
         </div>
         <div>
-          {(section.items || []).map((item, i) => (
-            <div className="prose reveal" key={item.id} data-reveal-delay={i * 70}>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </div>
-          ))}
+          <div className="grid">
+            {(section.items || []).map((item, i) => {
+              const Tag = item.link_url ? Link : 'div';
+              return (
+                <Tag className="card card-hover pillar reveal" key={item.id}
+                     data-reveal-delay={i * 90}
+                     {...(item.link_url ? { to: item.link_url } : {})}>
+                  <span className="ico"><Icon name="flask" /></span>
+                  <div>
+                    <h3>{item.title}{item.link_url && <Icon name="arrowRight" />}</h3>
+                    <p>{item.body}</p>
+                  </div>
+                </Tag>
+              );
+            })}
+          </div>
         </div>
       </div>
     </Section>
@@ -232,7 +242,7 @@ function RecentPosts({ posts }) {
                 <h3>{p.title}</h3>
                 <span className="bcard-x">{p.excerpt}</span>
                 <span className="bcard-by">
-                  <span className="avatar-fb" aria-hidden="true">{initials(p.author_name)}</span>
+                  <Avatar post={p} />
                   <span className="who">
                     <span className="nm">{p.author_name}</span>
                     <span className="af">{p.author_role}</span>
@@ -341,4 +351,12 @@ export function formatDate(value) {
 export function initials(name) {
   return (name || '').split(/\s+/).filter(Boolean).slice(0, 2)
     .map((w) => w[0]?.toUpperCase()).join('');
+}
+
+/** An author's portrait where there is one, initials otherwise. */
+export function Avatar({ post }) {
+  return post.author_avatar
+    ? <img className="avatar" src={post.author_avatar} alt={post.author_name || ''}
+           loading="lazy" decoding="async" />
+    : <span className="avatar-fb" aria-hidden="true">{initials(post.author_name)}</span>;
 }

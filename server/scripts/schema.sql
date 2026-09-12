@@ -100,7 +100,10 @@ CREATE TABLE page_section_items (
   subtitle   VARCHAR(255) NULL,
   body       MEDIUMTEXT NULL,
   image      VARCHAR(255) NULL,
-  icon       VARCHAR(60) NULL,
+  -- Which card shape the design draws this item as within its section:
+  -- 'card' (default), 'shape' (icon + kicker tile), 'format' (bullet in a
+  -- format list), 'gallery' (captioned figure).
+  kind       VARCHAR(40) NOT NULL DEFAULT 'card',
   link_url   VARCHAR(500) NULL,
   link_label VARCHAR(120) NULL,
   tags       VARCHAR(500) NULL,
@@ -220,6 +223,7 @@ CREATE TABLE posts (
   -- Invited guest post: the design badges these on the card.
   is_invited    TINYINT(1) NOT NULL DEFAULT 0,
   author_city   VARCHAR(200) NULL,
+  author_country VARCHAR(120) NULL,
   -- Pin position on the blog page's world map, in the basemap's own 960x480
   -- viewBox. Baked coordinates rather than lat/lon: the map is a Natural Earth I
   -- projection, so there is no cheap lat/lon -> pixel formula, and an editor
@@ -254,6 +258,12 @@ CREATE TABLE photos (
   thumb    VARCHAR(255) NOT NULL,
   full     VARCHAR(255) NOT NULL,
   caption  VARCHAR(500) NULL,
+  -- The album grid is a CSS multi-column masonry of uncropped photos, so the
+  -- browser needs each one's intrinsic size to reserve its slot. Without these
+  -- every tile collapses to its caption until the image loads, and the columns
+  -- re-balance on every load.
+  width    SMALLINT UNSIGNED NULL,
+  height   SMALLINT UNSIGNED NULL,
   sort     INT NOT NULL DEFAULT 0,
   INDEX idx_photo_album (album_id, sort),
   CONSTRAINT fk_photo_album FOREIGN KEY (album_id) REFERENCES albums(id) ON DELETE CASCADE
@@ -278,6 +288,28 @@ CREATE TABLE videos (
   sort        INT NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- One year's run of a recurring programme (the Summer Internship editions the
+-- Outreach page shows behind year tabs).
+DROP TABLE IF EXISTS programme_editions;
+CREATE TABLE programme_editions (
+  id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  programme  VARCHAR(60) NOT NULL DEFAULT 'summer-internship',
+  year       VARCHAR(20) NOT NULL,
+  title      VARCHAR(300) NOT NULL,
+  kicker     VARCHAR(160) NULL,
+  venue      VARCHAR(255) NULL,
+  summary    TEXT NULL,
+  image      VARCHAR(255) NULL,
+  -- One highlight per line.
+  highlights TEXT NULL,
+  tags       VARCHAR(500) NULL,
+  -- One "value|label" pair per line, e.g. "6|Weeks".
+  stats      TEXT NULL,
+  visible    TINYINT(1) NOT NULL DEFAULT 1,
+  sort       INT NOT NULL DEFAULT 0,
+  INDEX idx_edition_programme (programme, sort)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- --- events & outreach -------------------------------------------------------
 DROP TABLE IF EXISTS events;
 CREATE TABLE events (
@@ -288,6 +320,8 @@ CREATE TABLE events (
   body_html MEDIUMTEXT NULL,
   date_text VARCHAR(160) NULL,
   location  VARCHAR(255) NULL,
+  -- Badge on the card: Internship / Workshop / Webinar.
+  kind      VARCHAR(60) NULL,
   image     VARCHAR(255) NULL,
   cta_label VARCHAR(120) NULL,
   cta_url   VARCHAR(500) NULL,
@@ -331,6 +365,7 @@ CREATE TABLE contact_messages (
   id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name       VARCHAR(200) NOT NULL,
   email      VARCHAR(255) NOT NULL,
+  organisation VARCHAR(255) NULL,
   topic      VARCHAR(160) NULL,
   message    TEXT NOT NULL,
   is_read    TINYINT(1) NOT NULL DEFAULT 0,

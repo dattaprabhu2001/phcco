@@ -112,8 +112,9 @@ router.get('/cohort', async (req, res, next) => {
 router.get('/posts', async (req, res, next) => {
   try {
     const posts = await q(
-      `SELECT id, slug, title, excerpt, cover_image, author_name, author_role, author_title, is_invited,
-              author_city, author_map_x, author_map_y, read_minutes, is_featured, published_at
+      `SELECT id, slug, title, excerpt, cover_image, author_name, author_role, author_title,
+              author_avatar, is_invited,
+              author_city, author_country, author_map_x, author_map_y, read_minutes, is_featured, published_at
        FROM posts WHERE visible = 1 ORDER BY published_at DESC, sort ASC`
     );
     const page = await one('SELECT * FROM pages WHERE slug = "blog"');
@@ -195,6 +196,7 @@ router.get('/outreach', async (req, res, next) => {
       page,
       sections: await sectionsFor('outreach'),
       locations: await q('SELECT * FROM outreach_locations WHERE visible = 1 ORDER BY sort ASC'),
+      editions: await q('SELECT * FROM programme_editions WHERE visible = 1 ORDER BY sort ASC'),
     });
   } catch (e) { next(e); }
 });
@@ -214,7 +216,7 @@ router.get('/about', async (req, res, next) => {
 /** Contact form target. Public write — the one place the site accepts input. */
 router.post('/contact', async (req, res, next) => {
   try {
-    const { name, email, topic, message } = req.body || {};
+    const { name, email, organisation, topic, message } = req.body || {};
     if (!name?.trim() || !email?.trim() || !message?.trim()) {
       return res.status(400).json({ error: 'Name, email and message are all required.' });
     }
@@ -224,6 +226,7 @@ router.post('/contact', async (req, res, next) => {
     await insert('contact_messages', {
       name: name.trim().slice(0, 200),
       email: email.trim().slice(0, 255),
+      organisation: organisation?.trim().slice(0, 255) || null,
       topic: topic?.trim().slice(0, 160) || null,
       message: message.trim().slice(0, 5000),
     });

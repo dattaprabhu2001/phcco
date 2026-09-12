@@ -16,7 +16,7 @@ function MediaTabs({ active }) {
       {tabs.map((t) => (
         <Link key={t.key} className={`media-tab${active === t.key ? ' is-on' : ''}`}
               to={t.to} role="tab" aria-selected={active === t.key}>
-          {t.label}
+          <Icon name={t.key} />{t.label}
         </Link>
       ))}
     </div>
@@ -33,7 +33,7 @@ export function Media() {
 
   return (
     <>
-      <PageBanner page={data.page} crumb="Media" />
+      <PageBanner page={data.page} crumb="Photos" trail={[{ label: 'Media', to: '/media' }]} />
 
       <section className="section">
         <div className="shell">
@@ -98,12 +98,19 @@ export function Album() {
           <h1 className="t-hero balance">{album.title}</h1>
           {album.description && <p className="lead t-lead pretty">{album.description}</p>}
 
-          <div className="ph-grid" style={{ marginTop: '2rem' }}>
+          {/* `photo-grid` is a CSS multi-column masonry (1/2/3/4 columns by
+              width). It is what lets the mixed portrait and landscape shots sit
+              together at their own aspect ratios without being cropped. */}
+          <div className="photo-grid" style={{ marginTop: '2rem' }}>
             {photos.map((p, i) => (
               <figure className="ph-tile reveal" key={p.id} data-reveal-delay={(i % 6) * 60}>
                 <button className="ph-open" type="button" onClick={() => setOpen(i)}
                         aria-label={`Open photo ${i + 1} of ${photos.length}${p.caption ? `: ${p.caption}` : ''}`}>
-                  <img src={p.thumb} alt={p.caption || ''} loading="lazy" decoding="async" />
+                  {/* width/height reserve the tile's aspect ratio before the
+                      image arrives, so the masonry does not re-flow as it fills. */}
+                  <img src={p.thumb} alt={p.caption || ''}
+                       width={p.width || undefined} height={p.height || undefined}
+                       loading="lazy" decoding="async" />
                   <span className="ph-zoom" aria-hidden="true"><Icon name="search" /></span>
                 </button>
                 {p.caption && <figcaption>{p.caption}</figcaption>}
@@ -130,7 +137,7 @@ export function Videos() {
 
   return (
     <>
-      <PageBanner page={data.page} crumb="Videos" />
+      <PageBanner page={data.page} crumb="Videos" trail={[{ label: 'Media', to: '/media' }]} />
 
       <section className="section">
         <div className="shell">

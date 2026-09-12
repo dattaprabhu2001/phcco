@@ -17,6 +17,7 @@ import AdminLayout from './admin/components/AdminLayout.jsx';
 import Login from './admin/pages/Login.jsx';
 import Dashboard from './admin/pages/Dashboard.jsx';
 import Collection from './admin/pages/Collection.jsx';
+import HomeBanner from './admin/pages/HomeBanner.jsx';
 import { Settings, Messages, MediaLibrary, Account } from './admin/pages/Misc.jsx';
 
 export default function App() {
@@ -47,6 +48,7 @@ export default function App() {
         <Route path="/admin" element={<RequireAuth><AdminLayout /></RequireAuth>}>
           <Route index element={<Dashboard />} />
           <Route path="c/:key" element={<Collection />} />
+          <Route path="home-banner" element={<HomeBanner />} />
           <Route path="settings" element={<Settings />} />
           <Route path="messages" element={<Messages />} />
           <Route path="media" element={<MediaLibrary />} />

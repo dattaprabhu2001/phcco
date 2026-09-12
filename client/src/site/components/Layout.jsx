@@ -21,6 +21,20 @@ export default function Layout() {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  // A dropdown opened by click stays open until dismissed, so Escape and a
+  // click anywhere outside have to close it.
+  useEffect(() => {
+    if (openSub == null) return;
+    const onKey = (e) => { if (e.key === 'Escape') setOpenSub(null); };
+    const onClick = (e) => { if (!e.target.closest('.nav-parent')) setOpenSub(null); };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('click', onClick);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('click', onClick);
+    };
+  }, [openSub]);
+
   const settings = data?.settings || {};
   const nav = data?.nav || [];
 
@@ -50,13 +64,37 @@ export default function Layout() {
             </Link>
 
             <nav className="nav-desktop" aria-label="Primary">
-              {nav.map((item) =>
-                item.children?.length ? (
-                  <div className="nav-parent" key={item.id}
+              {nav.map((item) => {
+                if (!item.children?.length) {
+                  return (
+                    <NavLink key={item.id} to={item.path} end={item.path === '/'}>
+                      {item.label}
+                    </NavLink>
+                  );
+                }
+
+                const open = openSub === item.id;
+                return (
+                  // `is-open` is what the stylesheet shows the dropdown on —
+                  // tracking the state without setting the class leaves the
+                  // submenu permanently hidden.
+                  <div className={`nav-parent${open ? ' is-open' : ''}`} key={item.id}
                        onMouseEnter={() => setOpenSub(item.id)}
-                       onMouseLeave={() => setOpenSub(null)}>
-                    <NavLink to={item.path} aria-expanded={openSub === item.id}
-                             onClick={(e) => { e.preventDefault(); setOpenSub(openSub === item.id ? null : item.id); }}>
+                       onMouseLeave={() => setOpenSub(null)}
+                       onFocus={() => setOpenSub(item.id)}
+                       onBlur={(e) => {
+                         if (!e.currentTarget.contains(e.relatedTarget)) setOpenSub(null);
+                       }}>
+                    <NavLink to={item.path} aria-expanded={open} aria-haspopup="true"
+                             onClick={(e) => {
+                               // First activation opens the menu; a second one
+                               // follows the link, so the parent page stays
+                               // reachable by keyboard and on touch.
+                               if (!open) {
+                                 e.preventDefault();
+                                 setOpenSub(item.id);
+                               }
+                             }}>
                       {item.label}<Icon name="caret" className="nav-caret" />
                     </NavLink>
                     <ul className="nav-sub">
@@ -65,10 +103,8 @@ export default function Layout() {
                       ))}
                     </ul>
                   </div>
-                ) : (
-                  <NavLink key={item.id} to={item.path} end={item.path === '/'}>{item.label}</NavLink>
-                )
-              )}
+                );
+              })}
             </nav>
 
             <div className="header-actions">

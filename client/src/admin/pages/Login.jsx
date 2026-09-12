@@ -29,27 +29,27 @@ export default function Login() {
   }
 
   return (
-    <div className="admin-login">
-      <form className="admin-login-card" onSubmit={submit}>
-        <img src="/assets/media/brand/phcco-logo.webp" alt="PHCCO" className="admin-login-logo" />
-        <h1>Content management</h1>
-        <p className="admin-muted">Sign in to manage the PHCCO website.</p>
+    <div className="adm-login">
+      <form className="adm-login-card" onSubmit={submit}>
+        <img src="/assets/media/brand/phcco-logo.webp" alt="PHCCO" className="adm-login-logo" />
+        <h1>Content manager</h1>
+        <p className="adm-muted">Sign in to manage the PHCCO website.</p>
 
-        <label htmlFor="login-email">Email</label>
-        <input id="login-email" type="email" autoComplete="username" required
+        <label htmlFor="login-email">Email address</label>
+        <input id="login-email" type="email" autoComplete="username" required autoFocus
                value={email} onChange={(e) => setEmail(e.target.value)} />
 
         <label htmlFor="login-password">Password</label>
         <input id="login-password" type="password" autoComplete="current-password" required
                value={password} onChange={(e) => setPassword(e.target.value)} />
 
-        {error && <p className="admin-error" role="alert">{error}</p>}
+        {error && <p className="adm-error" role="alert">{error}</p>}
 
-        <button className="admin-btn primary" type="submit" disabled={busy}>
+        <button className="adm-btn primary" type="submit" disabled={busy}>
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
 
-        <Link className="admin-muted admin-back" to="/">← Back to the website</Link>
+        <Link className="adm-back adm-muted" to="/">← Back to the website</Link>
       </form>
     </div>
   );

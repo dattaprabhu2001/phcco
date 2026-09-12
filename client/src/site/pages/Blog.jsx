@@ -3,7 +3,7 @@ import { useFetch, useReveal, useTitle } from '../../lib/hooks.js';
 import { PageBanner, Loading, ErrorState, SectionHead, Section, Prose, GenericSection } from '../components/Bits.jsx';
 import WorldMap from '../components/WorldMap.jsx';
 import Icon from '../components/Icon.jsx';
-import { formatDate, initials } from './Home.jsx';
+import { formatDate, Avatar } from './Home.jsx';
 
 export function Blog() {
   const { data, loading, error } = useFetch('/posts');
@@ -43,7 +43,7 @@ export function Blog() {
                 <h2 className="t-h3 balance">{featured.title}</h2>
                 <p className="bf-x">{featured.excerpt}</p>
                 <span className="bcard-by">
-                  <span className="avatar-fb" aria-hidden="true">{initials(featured.author_name)}</span>
+                  <Avatar post={featured} />
                   <span className="who">
                     <span className="nm">{featured.author_name}</span>
                     {/* The wide feature card has room for the author's full title. */}
@@ -74,7 +74,7 @@ export function Blog() {
                     <h3>{p.title}</h3>
                     <span className="bcard-x">{p.excerpt}</span>
                     <span className="bcard-by">
-                      <span className="avatar-fb" aria-hidden="true">{initials(p.author_name)}</span>
+                      <Avatar post={p} />
                       <span className="who">
                         <span className="nm">{p.author_name}</span>
                         <span className="af">{p.author_role}</span>
@@ -134,7 +134,7 @@ export function BlogPost() {
           {post.excerpt && <p className="lead t-lead pretty">{post.excerpt}</p>}
 
           <div className="bcard-by" style={{ marginTop: '1.5rem' }}>
-            <span className="avatar-fb" aria-hidden="true">{initials(post.author_name)}</span>
+            <Avatar post={post} />
             <span className="who">
               <span className="nm">{post.author_name}</span>
               <span className="af">{post.author_role}</span>

@@ -82,7 +82,9 @@ export default function About() {
                 <Tag className="card card-hover card-pad pillar reveal" key={item.id}
                      data-reveal-delay={i * 70} style={{ display: 'block' }}
                      {...(item.link_url ? { to: item.link_url } : {})}>
-                  <h3 style={{ fontSize: '1.25rem' }}>{item.title}</h3>
+                  <h3 style={{ fontSize: '1.25rem' }}>
+                    {item.title}{item.link_url && <Icon name="arrowRight" />}
+                  </h3>
                   <p>{item.body}</p>
                 </Tag>
               );
