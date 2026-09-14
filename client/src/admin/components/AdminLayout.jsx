@@ -24,7 +24,9 @@ const EXTRA_IN_GROUP = {
 export default function AdminLayout() {
   const { user, logout } = useAuth();
   const { data: modules } = useFetch('/admin/modules');
-  const { data: stats } = useFetch('/admin/stats');
+  //const { data: stats } = useFetch('/admin/stats');
+
+  const { data: stats } = useFetch('/admin/dashboard-stats');
   const [navOpen, setNavOpen] = useState(false);
   const location = useLocation();
 

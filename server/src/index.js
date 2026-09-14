@@ -76,7 +76,9 @@ app.post('/api/admin/password', requireAuth, async (req, res, next) => {
 });
 
 // --- admin: dashboard --------------------------------------------------------
-app.get('/api/admin/stats', requireAuth, async (req, res, next) => {
+//app.get('/api/admin/stats', requireAuth, async (req, res, next) => {
+
+  app.get('/api/admin/dashboard-stats', requireAuth, async (req, res, next) => {
   try {
     const tables = [
       ['posts', 'Blog posts'], ['publications', 'Publications'],

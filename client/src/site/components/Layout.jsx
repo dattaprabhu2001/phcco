@@ -79,13 +79,13 @@ export default function Layout() {
                   // tracking the state without setting the class leaves the
                   // submenu permanently hidden.
                   <div className={`nav-parent${open ? ' is-open' : ''}`} key={item.id}
-                       onMouseEnter={() => setOpenSub(item.id)}
-                       onMouseLeave={() => setOpenSub(null)}
-                       onFocus={() => setOpenSub(item.id)}
-                       onBlur={(e) => {
-                         if (!e.currentTarget.contains(e.relatedTarget)) setOpenSub(null);
-                       }}>
-                    <NavLink to={item.path} aria-expanded={open} aria-haspopup="true"
+                    onMouseEnter={() => setOpenSub(item.id)}
+                    onMouseLeave={() => setOpenSub(null)}
+                    onFocus={() => setOpenSub(item.id)}
+                    onBlur={(e) => {
+                      if (!e.currentTarget.contains(e.relatedTarget)) setOpenSub(null);
+                    }}>
+                    {/* <NavLink to={item.path} aria-expanded={open} aria-haspopup="true"
                              onClick={(e) => {
                                // First activation opens the menu; a second one
                                // follows the link, so the parent page stays
@@ -96,6 +96,15 @@ export default function Layout() {
                                }
                              }}>
                       {item.label}<Icon name="caret" className="nav-caret" />
+                    </NavLink> */}
+                    <NavLink to={item.path} aria-expanded={open} aria-haspopup="true"
+                      onClick={(e) => {
+                        // Parent menu item should never navigate.
+                        // Only submenu items (Photos / Videos) should open pages.
+                        e.preventDefault();
+                        setOpenSub(item.id);
+                      }}>
+                      {item.label} <Icon name="caret" className="nav-caret" />
                     </NavLink>
                     <ul className="nav-sub">
                       {item.children.map((c) => (
@@ -116,14 +125,14 @@ export default function Layout() {
               <span className="header-divider" aria-hidden="true" />
               {settings.partner_logo && (
                 <a className="ph-logo" href={settings.partner_url} target="_blank" rel="noopener noreferrer"
-                   aria-label="Param Hansa Philanthropies">
+                  aria-label="Param Hansa Philanthropies">
                   <img src={settings.partner_logo} alt="Param Hansa Philanthropies" />
                 </a>
               )}
               <button className="menu-toggle" type="button" aria-expanded={menuOpen}
-                      aria-controls="site-nav-mobile"
-                      aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-                      onClick={() => setMenuOpen((v) => !v)}>
+                aria-controls="site-nav-mobile"
+                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                onClick={() => setMenuOpen((v) => !v)}>
                 <Icon name="menu" className="icon-open" />
                 <Icon name="close" className="icon-close" />
               </button>

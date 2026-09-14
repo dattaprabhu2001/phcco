@@ -25,7 +25,9 @@ const SHORTCUTS = [
 
 export default function Dashboard() {
   const { user } = useAuth();
-  const { data, loading, error } = useFetch('/admin/stats');
+ // const { data, loading, error } = useFetch('/admin/stats');
+
+ const { data, loading, error } = useFetch('/admin/dashboard-stats');
 
   if (loading) return <p className="adm-muted">Loading…</p>;
   if (error) return <p className="adm-error">{error.message}</p>;
